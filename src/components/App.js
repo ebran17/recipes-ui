@@ -15,10 +15,10 @@ const App = () => {
           <Header />
           <Routes>
             <Route path="/" exact element={<IngredientList />} />
-            <Route path="/ingredient/new" exact element={<IngredientCreate />} />
-            <Route path="/ingredient/edit" exact element={<IngredientEdit />} />
-            <Route path="/ingredient/delete" exact element={<IngredientDelete />} />
-            <Route path="/ingredient/show" exact element={<IngredientShow />} />
+            <Route path="/ingredients/new" exact element={<IngredientCreate />} />
+            <Route path="/ingredients/edit/:id" exact element={<IngredientEdit />} />
+            <Route path="/ingredients/delete" exact element={<IngredientDelete />} />
+            <Route path="/ingredients/show" exact element={<IngredientShow />} />
           </Routes>
         </div>
       </BrowserRouter>

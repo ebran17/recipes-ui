@@ -1,71 +1,88 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-class IngredientCreate extends React.Component {
-  renderInput = (formProps) => {//can be destructured to: { input }
-    const divClassError = `field ${formProps.meta.error && formProps.meta.touched ? 'error' : ''}`
+import { createIngredient } from '../../actions';
+import ingredients from '../../api/ingredients';
+
+
+const IngredientCreate = (props) => {
+  const navigate = useNavigate();
+
+  const onSubmit = async (formValues) => {
+    const userId = props.userId;
+    const response = await ingredients.post('/ingredients', { ...formValues, userId });
+    props.createIngredient(response.data);
+    navigate("/");
+  }
+
+  return (
+    <form onSubmit={props.handleSubmit(onSubmit)} className="ui form error">
+      <Field name="name" component={renderInput} label="Nombre" />
+      <Field name="type" component={renderInput} label="Tipo" />
+      <Field name="amount" component={renderInput} label="Cantidad" />
+      <Field name="unit" component={renderInput} label="Unidad" />
+      <Field name="cost" component={renderInput} label="Costo" />
+      <Field name="provider" component={renderInput} label="Proveedor" />
+      <button className="ui button primary" type="submit">Agregar</button>
+    </form>
+  );
+};
+
+const renderInput = (formProps) => {//can be destructured to: { input }
+  const divClassError = `field ${formProps.meta.error && formProps.meta.touched ? 'error' : ''}`
+  return (
+    <div className={divClassError}>
+      <label>{formProps.label}</label>
+      <input {...formProps.input} autoComplete="off" />
+    </div>
+  );
+};
+
+const renderError = ({ error, touched }) => {
+  if (touched && error) {
     return (
-      <div className={divClassError}>
-        <label>{formProps.label}</label>
-        <input {...formProps.input} autoComplete="off"/>  
+      <div className="ui error message">
+        <div className="header">{error}</div>
       </div>
-    );
-  }
-
-  renderError = ({error, touched}) => {
-    if(touched && error){
-      return (
-        <div className="ui error message">
-          <div className="header">{error}</div>
-        </div>
-      );
-    }
-  }
-
-  onSubmit(formValues) {
-    console.log(formValues);
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
-        <Field name="name" component={this.renderInput} label="Nombre"/>
-        <Field name="type" component={this.renderInput} label="Tipo"/>
-        <Field name="amount" component={this.renderInput} label="Cantidad"/>
-        <Field name="unit" component={this.renderInput} label="Unidad"/>
-        <Field name="cost" component={this.renderInput} label="Costo"/>
-        <Field name="provider" component={this.renderInput} label="Proveedor"/>      
-        <button className="ui button primary" type="submit">Agregar</button>
-      </form>
     );
   }
 };
 
 const validate = (formValues) => {
   const error = {};
-  if(!formValues.name){
+  if (!formValues.name) {
     error.name = "Nombre es requerido";
-  } 
-  if(!formValues.type){
+  }
+  if (!formValues.type) {
     error.type = "Tipo es requerido";
   }
-  if(!formValues.amount){
+  if (!formValues.amount) {
     error.amount = "Cantidad es requerido";
   }
-  if(!formValues.unit){
+  if (!formValues.unit) {
     error.unit = "Unidad es requerido";
   }
-  if(!formValues.cost){
+  if (!formValues.cost) {
     error.cost = "Costo es requerido";
   }
-  if(!formValues.provider){
+  if (!formValues.provider) {
     error.provider = "Proveedor es requerido";
   }
 
   return error;
 }
 
-export default reduxForm({
+const formWrapped = reduxForm({
   form: 'streamCreate',
   validate
 })(IngredientCreate);
+
+const mapStateToProps = (state) => {
+  return {
+    userId: state.auth.userId
+  };
+};
+
+export default connect(mapStateToProps, { createIngredient })(formWrapped)

@@ -1,0 +1,13 @@
+{
+  "ingredients": [
+    {
+      "name": "Cebolla",
+      "type": "Vegtal",
+      "amount": "2",
+      "unit": "KG",
+      "cost": "3000",
+      "provider": "Cartagos",
+      "id": 1
+    }
+  ]
+}
