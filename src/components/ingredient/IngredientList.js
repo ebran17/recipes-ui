@@ -31,7 +31,7 @@ const IngredientList = (props) => {
   const renderTableRow = () => {
     return props.ingredients.map(ingredient => {
       return (
-        <tr>
+        <tr key={ingredient.id}>
           <td>{ingredient.name}</td>
           <td>{ingredient.type}</td>
           <td>{ingredient.amount}</td>

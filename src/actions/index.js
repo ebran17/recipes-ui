@@ -38,7 +38,7 @@ export const fetchIngredients = () => async (dispatch) => {
 
 export const updateIngredient = (response) => (dispatch) => {
     dispatch({
-        type: CREATE_INGREDIENT,
+        type: UPDATE_INGREDIENT,
         payload: response
     });
 }

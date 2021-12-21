@@ -8,6 +8,16 @@
       "cost": "3000",
       "provider": "Cartagos",
       "id": 1
+    },
+    {
+      "name": "Testing",
+      "type": "Update",
+      "amount": "25",
+      "unit": "KG",
+      "cost": "20003",
+      "provider": "Catew",
+      "userId": "106576780990169001556",
+      "id": 2
     }
   ]
 }
